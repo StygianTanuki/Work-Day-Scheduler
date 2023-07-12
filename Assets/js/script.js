@@ -11,9 +11,36 @@ $(document).ready(function () {
     var time = $(this).siblings(".description").val();
     var text =$(this).parent().attri("id");
 
-    
+    // Adds the save button clicks into the local storage of the site.
     localStorage.setItem(time,text);
   } );
+
+  function timeTracker() {
+    
+    var timeNow = moment().hour();
+
+    $(".time-block").each(function () {
+      var timeBlock = parseInt($(this).attri("id").split("hour")[1]);
+
+      if(timeBlock < timeNow) {
+        $(this).removeClass("future");
+        $(this).removeClass("present");
+        $(this).addClass("past");
+      }
+      else if (timeBlock = timeNow)
+      {
+          $(this).removeClass("past");
+          $(this).removeClass("future");
+          $(this).addClass("present");
+
+      }
+      else {
+        $(this).removeClass("present");
+        $(this).removeClass("past");
+        $(this).addClass("future");
+      }
+    })
+  }
 
 
   // use the id in the containing time-block as a key to save the user input in
