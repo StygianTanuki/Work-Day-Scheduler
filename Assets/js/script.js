@@ -1,38 +1,43 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html. 
-
-  // TODO: Add a listener for click events on the save button. This code should
-
 
 $(document).ready(function () {
 
+  // The current date that is displayed in the header
+  // "dddd" will display the current day, while the rest will display the 
+  // month day and year.
  var today = dayjs();
 $('#currentDay').text(today.format('dddd, MMMM D YYYY'));
 
-
+  //This is the save button so that the description and the time will 
+  // be saved to the local storage.
   $( ".saveBtn" ).on( "click", function() {
     var text = $(this).siblings(".description").val();
     var time =$(this).parent().attr("id");
-    console.log(text);
-    console.log(time);
 
     // Adds the save button clicks into the local storage of the site.
     localStorage.setItem(time,text);
   } );
 
+  // This section of code allows use to change the css of each box within
+  // the html to their corresponding colors for past, present and future.
   function timeTracker() {
     
+    // Setting timeCurrent with the dayjs and the hour
     var timeCurrent = dayjs().hour();
 
+    // This calls the time-block and shows that each block will change
+    // at different intervals of the day that corresponds to that hour.
     $(".time-block").each(function () {
       var timeBlock = parseInt($(this).attr("id").split("_")[1]);
 
+      // This time block represents if the time is less than the current
+      // hour. This will change the block to grey.
       if(timeBlock < timeCurrent) {
         $(this).removeClass("future");
         $(this).removeClass("present");
         $(this).addClass("past");
       }
+      // This timeblock represents the time if it is currently at the same hour
+      // which will allow the block to turn red.
       else if (timeBlock == timeCurrent)
       {
           $(this).removeClass("past");
@@ -40,6 +45,8 @@ $('#currentDay').text(today.format('dddd, MMMM D YYYY'));
           $(this).addClass("present");
 
       }
+      // If the time is not before or at the current time it will be
+      // displayed as a future block which is in green.
       else {
         $(this).removeClass("present");
         $(this).removeClass("past");
@@ -47,10 +54,11 @@ $('#currentDay').text(today.format('dddd, MMMM D YYYY'));
       }
     })
 
-    
-  // timeTracker();
+
   }
 
+  //This is the area that stores all the data for the local storage
+  // and allows it to be called up when needed for the site.
   $("#hour_9 .description").val(localStorage.getItem("hour_9"));
   $("#hour_10 .description").val(localStorage.getItem("hour_10"));
   $("#hour_11 .description").val(localStorage.getItem("hour_11"));
@@ -62,29 +70,7 @@ $('#currentDay').text(today.format('dddd, MMMM D YYYY'));
   $("#hour_17 .description").val(localStorage.getItem("hour_17"));
   
 
+  // This calls the function back
   timeTracker();
 
 });
-
-
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour_x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
-
-
-
-//write a loop for the past, present and future
