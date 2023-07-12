@@ -1,15 +1,16 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(document).ready(function () {
+// in the html. 
+ var today = dayjs();
+$('#currentDay').text(today.format('dddd, MMMM D YYYY'));
   // TODO: Add a listener for click events on the save button. This code should
 
 
+$(document).ready(function () {
 
-// SAVE BUTTON ADD EVENT 
   $( ".saveBtn" ).on( "click", function() {
-    var time = $(this).siblings(".description").val();
-    var text =$(this).parent().attri("id");
+    var text = $(this).siblings(".description").val();
+    var time =$(this).parent().attr("id");
 
     // Adds the save button clicks into the local storage of the site.
     localStorage.setItem(time,text);
@@ -17,17 +18,17 @@ $(document).ready(function () {
 
   function timeTracker() {
     
-    var timeNow = moment().hour();
+    var timeCurrent = moment().hour();
 
     $(".time-block").each(function () {
-      var timeBlock = parseInt($(this).attri("id").split("hour")[1]);
+      var timeBlock = parseInt($(this).attr("id").split("hour")[1]);
 
-      if(timeBlock < timeNow) {
+      if(timeBlock < timeCurrent) {
         $(this).removeClass("future");
         $(this).removeClass("present");
         $(this).addClass("past");
       }
-      else if (timeBlock = timeNow)
+      else if (timeBlock = timeCurrent)
       {
           $(this).removeClass("past");
           $(this).removeClass("future");
@@ -40,12 +41,32 @@ $(document).ready(function () {
         $(this).addClass("future");
       }
     })
+    // timeTracker();
   }
+
+  $("#hour_5 .description").val(localStorage.getItem(hour_5));
+  $("#hour_6 .description").val(localStorage.getItem(hour_6));
+  $("#hour_7 .description").val(localStorage.getItem(hour_7));
+  $("#hour_8 .description").val(localStorage.getItem(hour_8));
+  $("#hour_9 .description").val(localStorage.getItem(hour_9));
+  $("#hour_10 .description").val(localStorage.getItem(hour_10));
+  $("#hour_11 .description").val(localStorage.getItem(hour_11));
+  $("#hour_12 .description").val(localStorage.getItem(hour_12));
+  $("#hour_13 .description").val(localStorage.getItem(hour_13));
+  $("#hour_14 .description").val(localStorage.getItem(hour_14));
+  $("#hour_15 .description").val(localStorage.getItem(hour_15));
+  $("#hour_16 .description").val(localStorage.getItem(hour_16));
+  $("#hour_17 .description").val(localStorage.getItem(hour_17));
+  
+
+  timeTracker();
+
+});
 
 
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
+  // function? How can DOM traversal be used to get the "hour_x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
@@ -60,9 +81,7 @@ $(document).ready(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-  var today = dayjs();
-$('#currentDay').text(today.format('dddd, MMMM D YYYY'));
-});
+
 
 
 //write a loop for the past, present and future
